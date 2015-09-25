@@ -97,5 +97,17 @@ end.
 Goal A -> B -> C -> B -> A.
 my_intros.
 
+Ltac my_assumption :=
+ match goal with 
+ | [ H : ?e |- ?e] => assumption
+ end.
+
+Goal A -> B -> C -> B -> A.
+my_intros.
+my_assumption.
+
+
+
+
 
 
