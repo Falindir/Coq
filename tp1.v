@@ -106,6 +106,15 @@ Goal A -> B -> C -> B -> A.
 my_intros.
 my_assumption.
 
+Goal A -> B -> A.
+tauto. (* un com *)
+
+Ltac res_form_prop := 
+ match goal with
+ 
+
+ end.
+
 
 
 
