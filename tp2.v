@@ -101,6 +101,49 @@ Hint Rewrite ax4 ax5 ax6 ax7 : base0.
 Lemma PX : (mult (s (s o)) (s (s o))) = (s (s (s (s o)))).
 intros.
 autorewrite with base0; try reflexivity.
- 
+
+Abort All.
+
+Section Anneau.
+Parameter W : Set.
+Parameter ZE : W.
+Parameter UN : W.
+Parameters PL MO : W -> W -> W.
+Parameter INV : W -> W.
+Variables x y z : W.
+Axiom axB1 : (PL (PL x y) z) = (PL x (PL y z)).
+Axiom axB2 : (PL x y) = (PL y x).
+Axiom axB3 : (MO (MO x y) z) = (MO x (MO y z)).
+Axiom axB4 : (MO x (PL y z)) = (PL (MO x y ) (MO x z)).
+Axiom axB5 : (MO (PL y z) x) = (PL (MO y x) (MO z x)).
+Axiom axB6 : (PL x ZE) = x.
+Axiom axB7 : (PL ZE x) = x.
+Axiom axB8 : (PL x (INV x)) = ZE.
+Axiom axB9 : (PL (INV x) x) = ZE.
+Axiom axB10 : (MO x UN) = x.
+Axiom axB11 : (MO UN x) = x.
+Axiom axB12 : (MO x y) = (MO y x).
+
+
+End Anneau.
+
+Lemma ID3 : forall A B C:W, (MO (PL A B) (PL A B) ) = (PL (PL (MO A A) (PL (MO A B) (MO A B) ) ) (MO B B )).
+intros.
+rewrite axB4.
+rewrite axB5.
+rewrite axB1. 
+rewrite axB2.
+rewrite axB2.
+rewrite axB1.
+rewrite axB5.
+rewrite axB1.
+rewrite (axB12 B A).
+reflexivity.
+
+
+
+
+
+
 
  
