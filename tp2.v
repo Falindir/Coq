@@ -105,17 +105,17 @@ autorewrite with base0; try reflexivity.
 Abort All.
 
 Section Anneau.
-Parameter W : Set.
+Parameter W : Type.
 Parameter ZE : W.
 Parameter UN : W.
-Parameters PL MO : W -> W -> W.
+Parameters PL MO MU : W -> W -> W.
 Parameter INV : W -> W.
 Variables x y z : W.
-Axiom axB1 : (PL (PL x y) z) = (PL x (PL y z)).
+Axiom axB1 : (PL x (PL y z)) = (PL (PL x y) z).
 Axiom axB2 : (PL x y) = (PL y x).
-Axiom axB3 : (MO (MO x y) z) = (MO x (MO y z)).
+Axiom axB3 : (MO x (MO y z)) = (MO (MO x y) z).
 Axiom axB4 : (MO x (PL y z)) = (PL (MO x y ) (MO x z)).
-Axiom axB5 : (MO (PL y z) x) = (PL (MO y x) (MO z x)).
+Axiom axB5 : (MO (PL x y) z) = (PL (MO x z) (MO y z)).
 Axiom axB6 : (PL x ZE) = x.
 Axiom axB7 : (PL ZE x) = x.
 Axiom axB8 : (PL x (INV x)) = ZE.
@@ -123,27 +123,24 @@ Axiom axB9 : (PL (INV x) x) = ZE.
 Axiom axB10 : (MO x UN) = x.
 Axiom axB11 : (MO UN x) = x.
 Axiom axB12 : (MO x y) = (MO y x).
-
+Axiom axB13 : (MU x y) = (PL x (INV y)). 
 
 End Anneau.
 
-Lemma ID3 : forall A B C:W, (MO (PL A B) (PL A B) ) = (PL (PL (MO A A) (PL (MO A B) (MO A B) ) ) (MO B B )).
+
+
+Require Import Ring_base.
+
+Print ring_theory.
+
+Check mk_rt.
+
+Definition my_ring := 
+mk_rt ZE UN PL MO MU INV eq axB7 axB2 axB1 axB11 axB12 axB3 axB5 axB13 axB8.
+
+Add Ring toto : my_ring.
+Lemma ID4 : forall A B C:W, (MO (PL A B) (PL A B) ) = (PL (PL (MO A A) (PL (MO A B) (MO A B) ) ) (MO B B )).
 intros.
-rewrite axB4.
-rewrite axB5.
-rewrite axB1. 
-rewrite axB2.
-rewrite axB2.
-rewrite axB1.
-rewrite axB5.
-rewrite axB1.
-rewrite (axB12 B A).
-reflexivity.
 
 
-
-
-
-
-
- 
+ring.
