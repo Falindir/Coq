@@ -60,7 +60,18 @@ intros.
 right.
 discriminate.
 intros.
+elim (H0 n0).
+left.
+elim a.
+reflexivity.
+right.
+congruence.
 
+Save.
+
+Lemma my_eq_nat_dec2  : forall n m : nat, {n = m} + {n <> m}.
+intros.
+decide equality.
 
 
 
