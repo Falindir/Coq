@@ -73,5 +73,74 @@ Lemma my_eq_nat_dec2  : forall n m : nat, {n = m} + {n <> m}.
 intros.
 decide equality.
 
+Save.
+
+Fixpoint function_equality (a b : nat) : bool := 
+match a with 
+| 0 => match b with
+       | 0 =>  true
+       | S p => false
+       end
+| S p1 => match b with 
+          | 0 => false
+          | S p2 => (function_equality p1 p2)
+          end
+end.
+
+Save.
+
+
+Eval compute in (function_equality 0 0).
+Eval compute in (function_equality (S 0) 0).
+Eval compute in (function_equality (S 0) (S 0)).
+
+Inductive BinTree : Set :=
+| Leaf : nat -> BinTree
+| Node : nat -> BinTree -> BinTree -> BinTree.
+
+
+Save.
+
+Lemma my_eq_nat_Tree : forall n m : BinTree, {n = m} + {n <> m}.
+induction n.
+induction m.
+elim (my_eq_nat_dec n n0).
+left.
+rewrite a.
+reflexivity.
+right.
+congruence.
+right.
+discriminate.
+induction m.
+right.
+discriminate.
+elim (my_eq_nat_dec n1 n).
+intros.
+rewrite a.
+elim (IHn1 m1).
+intros.
+rewrite a0.
+elim (IHn2 m2).
+intros.
+rewrite a1.
+left.
+reflexivity.
+intros.
+right.
+congruence.
+right.
+congruence.
+right.
+congruence.
+
+Save.
+
+
+
+
+
+
+
 
 

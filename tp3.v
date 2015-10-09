@@ -60,6 +60,47 @@ intros.
 right.
 discriminate.
 intros.
+elim (H0 n0).
+left.
+elim a.
+reflexivity.
+right.
+congruence.
+
+Save.
+
+Lemma my_eq_nat_dec2  : forall n m : nat, {n = m} + {n <> m}.
+intros.
+decide equality.
+
+Save.
+
+Fixpoint function_equality (a b : nat) : bool := 
+match a with 
+| 0 => match b with
+       | 0 =>  true
+       | S p => false
+       end
+| S p1 => match b with 
+          | 0 => false
+          | S p2 => (function_equality p1 p2)
+          end
+end.
+
+
+Eval compute in (function_equality 0 0).
+Eval compute in (function_equality (S 0) 0).
+Eval compute in (function_equality (S 0) (S 0)).
+
+Inductive BinTree : Set :=
+| Leaf : nat -> BinTree
+| Node : nat -> BinTree -> BinTree -> BinTree.
+.
+
+
+
+
+
 
 
 
