@@ -189,11 +189,12 @@ inversion_clear H.
 inversion_clear H0.
 
 Ltac is_event_tac_tild := 
+intro;
 repeat (match goal with 
 | H : is_even ?e |- _ => inversion_clear H
 end).
 
-repeat inversion_clear H; inversion_clear H0.
+
 
 Goal ~(is_even 9).
 is_event_tac_tild.
