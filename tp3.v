@@ -33,4 +33,19 @@ rewrite H.
 simpl.
 reflexivity.
 
+Save.
+
+
+Lemma P2 : forall E : Type, forall l : (list E), rev( rev( l) ) = l.
+intros.
+elim l.
+simpl.
+reflexivity.
+intros.
+simpl.
+rewrite (P1 E (rev l0) a).
+rewrite H.
+reflexivity.
+
+
 
