@@ -87,6 +87,8 @@ match a with
           end
 end.
 
+Save.
+
 
 Eval compute in (function_equality 0 0).
 Eval compute in (function_equality (S 0) 0).
@@ -95,10 +97,108 @@ Eval compute in (function_equality (S 0) (S 0)).
 Inductive BinTree : Set :=
 | Leaf : nat -> BinTree
 | Node : nat -> BinTree -> BinTree -> BinTree.
-.
 
 
+Save.
 
+Lemma my_eq_nat_Tree : forall n m : BinTree, {n = m} + {n <> m}.
+induction n.
+induction m.
+elim (my_eq_nat_dec n n0).
+left.
+rewrite a.
+reflexivity.
+right.
+congruence.
+right.
+discriminate.
+induction m.
+right.
+discriminate.
+elim (my_eq_nat_dec n1 n).
+intros.
+rewrite a.
+elim (IHn1 m1).
+intros.
+rewrite a0.
+elim (IHn2 m2).
+intros.
+rewrite a1.
+left.
+reflexivity.
+intros.
+right.
+congruence.
+right.
+congruence.
+right.
+congruence.
+
+Save.
+
+Lemma my_eq_nat_Tree2 : forall n m : BinTree, {n = m} + {n <> m}.
+intros.
+decide equality.
+elim (my_eq_nat_dec2 n0 n1).
+left.
+rewrite a.
+reflexivity.
+right.
+congruence.
+elim (my_eq_nat_dec2 n0 n1).
+left.
+rewrite a.
+reflexivity.
+right.
+congruence.
+
+Inductive is_even : nat -> Prop :=
+| is_even_0 : is_even 0
+| is_even_S : forall n : nat, is_even n -> is_even (S (S n)).
+
+Fixpoint is_even_tac (n : nat) : bool := 
+match n with 
+| 0 => true
+| 1 => false
+| S (S p) => (is_even_tac p)
+end. 
+
+Ltac is_event_tac :=
+repeat apply is_even_S;
+apply is_even_0.
+
+
+Eval compute in (is_even_tac (S (S 0))).
+Eval compute in (is_even_tac (S (S (S 0)))).
+
+Open Scope nat_scope.
+Check (S (S 0)).
+
+Save.
+
+Lemma test_even : (is_even (S(S(S(S 0))))).
+is_event_tac.
+
+Save.
+
+Goal ~(is_even 7).
+intro.
+inversion_clear H.
+inversion_clear H0.
+inversion_clear H.
+inversion_clear H0.
+
+Ltac is_event_tac_tild := 
+repeat (match goal with 
+| H : is_even ?e |- _ => inversion_clear H
+end).
+
+repeat inversion_clear H; inversion_clear H0.
+
+Goal ~(is_even 9).
+is_event_tac_tild.
+
+ 
 
 
 
