@@ -198,11 +198,31 @@ end).
 
 Goal ~(is_even 9).
 is_event_tac_tild.
-
  
 
+Inductive is_perm : list nat -> list nat -> Prop := 
+| is_perm_append : forall n : nat, forall l : list nat, (is_perm (n::l) (l++[n]))
+| is_perm_syme : forall l1 : list nat, forall l2 : list nat, (is_perm l1 l2) -> (is_perm l2 l1)
+| is_perm_refl : forall l : list nat, is_perm l l
+| is_perm_trans : forall l1 l2 l3 : list nat , is_perm l1 l2 -> is_perm l2 l3 -> is_perm l1 l3
+| is_perm_cons : forall n : nat, forall l1 l2 : list nat, is_perm l1 l2 -> is_perm (n::l1) (n::l2)
+.
 
+Lemma is_perm_ex1 : is_perm (1::2::3::nil) (3::2::1::nil).
+Proof.
+apply (is_perm_trans (1::2::3::nil) ((2::3::nil) ++ 1::nil) (3::2::1::nil)).
+apply is_perm_append.
+simpl.
+apply (is_perm_trans (2::3::1::nil) ((3::1::nil) ++ 2::nil) (3::2::1::nil)).
+apply is_perm_append.
+simpl.
+apply is_perm_cons.
+apply (is_perm_trans (1::2::nil) ((2::nil) ++ 1::nil) (2::1::nil)).
+apply is_perm_append.
+simpl.
+apply is_perm_cons.
+apply is_perm_refl.
 
-
+Save.
 
 
